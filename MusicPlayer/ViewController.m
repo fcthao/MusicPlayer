@@ -92,11 +92,31 @@
     [self.currentPlayingTimeLabel setText:[[MusicPlayerTool sharedPlayerTool] currentTimeOfMusic]];
     [self.progressView setProgress:[[MusicPlayerTool sharedPlayerTool] progress]];
 }
+/**
+ *  暂停播放歌曲
+ */
 - (IBAction)pauseMusic {
+    [self.playBtn setHidden:false];
+    [self.pauseBtn setHidden:true];
+    
+    [[MusicPlayerTool sharedPlayerTool] pause];
+    [self.timer invalidate];
+    [self setTimer:nil];
 }
+/**
+ *  播放上一首歌曲
+ */
 - (IBAction)previousMusic {
+    self.currentMusicIndex = self.currentMusicIndex == 0 ? self.musics.count - 1 : self.currentMusicIndex - 1;
+    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:self.musics[_currentMusicIndex].mp3];
 }
+/**
+ *  播放下一首歌曲
+ */
 - (IBAction)nextMusic {
+    _currentMusicIndex = _currentMusicIndex == self.musics.count - 1 ? 0 : _currentMusicIndex + 1;
+    Music *music = self.musics[_currentMusicIndex];
+    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:music.mp3];
 }
 
 @end

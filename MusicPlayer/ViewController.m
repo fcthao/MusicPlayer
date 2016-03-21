@@ -14,8 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 @property (weak, nonatomic) IBOutlet UIButton *previousBtn;
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UIImageView *albumImageView;
 
-@property (null_resettable, nonatomic, strong) UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UILabel *singerNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *albumNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lyricLabel;
@@ -26,19 +27,31 @@
 
 @implementation ViewController
 
-- (UIProgressView *)progressView {
-    if (!_progressView) {
-        _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-        [self.view addSubview:_progressView];
-        [_progressView setBackgroundColor:[UIColor orangeColor]];
-        [_progressView setProgress:0.3];
-    }
-    return _progressView;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.progressView setFrame:CGRectMake(50, 50, 200, 4)];
+    //利用BarStyle样式设置玻璃效果
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    [toolbar setBarStyle:UIBarStyleBlack];
+    [toolbar setTranslucent:YES];
+    [self.bgImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.bgImageView addSubview:toolbar];
+    //使用VisualFormatLanguage实现自动布局
+    NSArray<NSLayoutConstraint *> *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[toolbar]-0-|" options:0 metrics:nil views:@{@"toolbar": toolbar}];
+    NSArray<NSLayoutConstraint *> *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[toolbar]-0-|" options:0 metrics:nil views:@{@"toolbar": toolbar}];
+    
+    [self.bgImageView addConstraints:constraintsH];
+    [self.bgImageView addConstraints:constraintsV];
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.navigationController.navigationBar setTranslatesAutoresizingMaskIntoConstraints:YES];
+}
+- (IBAction)playMusic {
+}
+- (IBAction)pauseMusic {
+}
+- (IBAction)previousMusic {
+}
+- (IBAction)nextMusic {
 }
 
 @end

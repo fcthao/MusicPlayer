@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+
+
 @interface MusicPlayerTool : NSObject
+
+
++ (instancetype)sharedPlayerTool;
+
+- (void)playMusicWithMusicName:(NSString *)musicName;
+
+- (void)pause;
 
 @end

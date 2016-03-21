@@ -6,7 +6,7 @@
 //  Copyright © 2016年 FanWei. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 
@@ -18,5 +18,9 @@
 - (void)playMusicWithMusicName:(NSString *)musicName;
 
 - (void)pause;
+- (NSString *)totalTime;
+- (NSString *)currentTimeOfMusic;
+
+- (CGFloat)progress;
 
 @end

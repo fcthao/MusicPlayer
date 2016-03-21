@@ -11,7 +11,7 @@
 @interface Music : NSObject
 /** 歌曲名称*/
 @property (nonatomic,copy)NSString *name;
-/** 专辑图片*/
+/** 专辑图片名称*/
 @property (nonatomic,copy)NSString *image;
 /** 歌词*/
 @property (nonatomic,copy)NSString *lrc;

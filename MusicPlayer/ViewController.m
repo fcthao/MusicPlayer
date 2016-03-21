@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "MusicPlayerTool.h"
+#import "Music.h"
+#import <MJExtension.h>
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
@@ -24,10 +26,25 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentPlayingTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
 
-//@property (strong, nonatomic) NSArray
+@property (strong, nonatomic) NSArray<Music *> *musics;
+
+@property (assign, nonatomic) NSInteger currentMusicIndex;
+
+@property (strong, nonatomic) NSTimer *timer;
 @end
 
 @implementation ViewController
+/**
+ *  使用MJExtension进行字典转模型
+ *
+ *  @return <#return value description#>
+ */
+- (NSArray<Music *> *)musics {
+    if (!_musics) {
+        _musics = [Music mj_objectArrayWithFilename:@"mlist.plist"];
+    }
+    return _musics;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,7 +65,32 @@
     [self.navigationController.navigationBar setTranslatesAutoresizingMaskIntoConstraints:YES];
 }
 - (IBAction)playMusic {
+    //两个按钮同时只显示一个
+    self.playBtn.hidden = true;
+    self.pauseBtn.hidden = false;
+    //开始播放音乐
+    Music *music = self.musics[self.currentMusicIndex];
+    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:music.mp3];
     
+    //针对每首不同的歌曲，更新UI
+    self.title = music.name;
+    [self.bgImageView setImage:[UIImage imageNamed:music.image]];
+    [self.albumImageView setImage:[UIImage imageNamed:music.image]];
+    
+    [self.albumNameLabel setText:music.album];
+    [self.singerNameLabel setText:music.singer];
+    
+    [self.totalTimeLabel setText:[[MusicPlayerTool sharedPlayerTool] totalTime]];
+    self.timer = [NSTimer timerWithTimeInterval:1.0
+                                         target:self
+                                       selector:@selector(updateCurrentPlayingTime)
+                                       userInfo:nil
+                                        repeats:true];
+}
+
+- (void)updateCurrentPlayingTime {
+    [self.currentPlayingTimeLabel setText:[[MusicPlayerTool sharedPlayerTool] currentTimeOfMusic]];
+    [self.progressView setProgress:[[MusicPlayerTool sharedPlayerTool] progress]];
 }
 - (IBAction)pauseMusic {
 }

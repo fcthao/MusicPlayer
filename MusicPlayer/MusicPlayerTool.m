@@ -68,5 +68,26 @@
         [self.player pause];//pauses playback, but remains ready to play.
     }
 }
+/**
+ *  当前歌曲播放总持续时间
+ *
+ *  @return 歌曲总时间字符串表示形式
+ */
+- (NSString *)totalTime {
+    NSTimeInterval duration = self.player.duration;
+    return [NSString stringWithFormat:@"%02d:%02d", (int)duration / 60, (int)duration % 60];
+}
+/**
+ *  播放器当前播放的时间点
+ *
+ *  @return 字符串表示形式
+ */
+- (NSString *)currentTimeOfMusic {
+    NSTimeInterval currentTime = self.player.currentTime;
+    return [NSString stringWithFormat:@"%02d:%02d", (int)currentTime / 60, (int)currentTime % 60];
+}
 
+- (CGFloat)progress {
+    return self.player.currentTime / self.player.duration;
+}
 @end

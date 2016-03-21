@@ -9,8 +9,18 @@
 #import "ViewController.h"
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
+@property (weak, nonatomic) IBOutlet UIButton *playBtn;
+@property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
+@property (weak, nonatomic) IBOutlet UIButton *previousBtn;
+@property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 
 @property (null_resettable, nonatomic, strong) UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UILabel *singerNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *albumNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lyricLabel;
+@property (weak, nonatomic) IBOutlet UILabel *currentPlayingTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
 
 @end
 

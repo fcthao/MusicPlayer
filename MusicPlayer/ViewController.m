@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "MusicPlayerTool.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
@@ -23,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentPlayingTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
 
+//@property (strong, nonatomic) NSArray
 @end
 
 @implementation ViewController
@@ -46,6 +48,7 @@
     [self.navigationController.navigationBar setTranslatesAutoresizingMaskIntoConstraints:YES];
 }
 - (IBAction)playMusic {
+    
 }
 - (IBAction)pauseMusic {
 }

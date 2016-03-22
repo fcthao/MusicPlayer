@@ -10,5 +10,5 @@
 
 @interface LyricLabel : UILabel
 
-@property (nonatomic, assign) NSTimeInterval progress;
+@property (nonatomic, assign) CGFloat progress;
 @end

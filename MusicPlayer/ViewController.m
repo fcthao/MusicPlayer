@@ -12,6 +12,7 @@
 #import <MJExtension.h>
 #import "MusicLyricTool.h"
 #import "MusicLyric.h"
+#import "LyricLabel.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
@@ -24,7 +25,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *singerNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *albumNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lyricLabel;
+@property (weak, nonatomic) IBOutlet LyricLabel *lyricLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentPlayingTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
 
@@ -91,7 +92,7 @@
     self.lyrics = [MusicLyricTool allLyricLinesWithLyricName:music.lrc];
     
     [self.totalTimeLabel setText:[[MusicPlayerTool sharedPlayerTool] totalTime]];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 60
                                                   target:self
                                                 selector:@selector(updateCurrentPlayingTime) userInfo:nil
                                                  repeats:true];
@@ -108,6 +109,7 @@
         NSTimeInterval current = [[MusicPlayerTool sharedPlayerTool] currentTimeOfMusicFloat];
         if (current >= currentLyric.timePoint && current < nextLyric.timePoint) {
             [self.lyricLabel setText:currentLyric.lyricText];
+            [self.lyricLabel setProgress:(current - currentLyric.timePoint) / (nextLyric.timePoint - currentLyric.timePoint)];
         }
     }
 }

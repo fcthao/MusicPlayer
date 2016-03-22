@@ -10,4 +10,14 @@
 
 @implementation LyricLabel
 
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    [[UIColor greenColor] set];
+    UIRectFillUsingBlendMode(CGRectMake(0, 0, rect.size.width * self.progress, rect.size.height), kCGBlendModeSourceIn);
+}
+
+- (void)setProgress:(CGFloat)progress {
+    _progress = progress;
+    [self setNeedsDisplay];
+}
 @end

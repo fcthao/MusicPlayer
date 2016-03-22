@@ -87,6 +87,9 @@
     return [NSString stringWithFormat:@"%02d:%02d", (int)currentTime / 60, (int)currentTime % 60];
 }
 
+- (NSTimeInterval)currentTimeOfMusicFloat {
+    return self.player.currentTime;
+}
 - (CGFloat)progress {
     return self.player.currentTime / self.player.duration;
 }

@@ -20,7 +20,9 @@
 - (void)pause;
 - (NSString *)totalTime;
 - (NSString *)currentTimeOfMusic;
+- (NSTimeInterval)currentTimeOfMusicFloat;
 
 - (CGFloat)progress;
+
 
 @end

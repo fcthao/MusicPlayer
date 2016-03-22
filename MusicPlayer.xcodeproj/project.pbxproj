@@ -36,6 +36,9 @@
 		42C6411A1CA0400E008D59A1 /* MusicPlayerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C641191CA0400E008D59A1 /* MusicPlayerTool.m */; };
 		42C6411C1CA04918008D59A1 /* mlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42C6411B1CA04918008D59A1 /* mlist.plist */; };
 		42C641201CA04F25008D59A1 /* Music.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C6411F1CA04F25008D59A1 /* Music.m */; };
+		42C641231CA06468008D59A1 /* MusicLyricTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C641221CA06468008D59A1 /* MusicLyricTool.m */; };
+		42C641261CA064B0008D59A1 /* MusicLyric.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C641251CA064B0008D59A1 /* MusicLyric.m */; };
+		42C6412A1CA17553008D59A1 /* LyricLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C641291CA17553008D59A1 /* LyricLabel.m */; };
 		97FC1873C7E1746E1467556F /* libPods-MusicPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24431BFD724D8EBAD1DF50C3 /* libPods-MusicPlayer.a */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +80,12 @@
 		42C6411B1CA04918008D59A1 /* mlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mlist.plist; sourceTree = "<group>"; };
 		42C6411E1CA04F25008D59A1 /* Music.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Music.h; sourceTree = "<group>"; };
 		42C6411F1CA04F25008D59A1 /* Music.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Music.m; sourceTree = "<group>"; };
+		42C641211CA06468008D59A1 /* MusicLyricTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicLyricTool.h; sourceTree = "<group>"; };
+		42C641221CA06468008D59A1 /* MusicLyricTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicLyricTool.m; sourceTree = "<group>"; };
+		42C641241CA064B0008D59A1 /* MusicLyric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicLyric.h; sourceTree = "<group>"; };
+		42C641251CA064B0008D59A1 /* MusicLyric.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicLyric.m; sourceTree = "<group>"; };
+		42C641281CA17553008D59A1 /* LyricLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LyricLabel.h; sourceTree = "<group>"; };
+		42C641291CA17553008D59A1 /* LyricLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LyricLabel.m; sourceTree = "<group>"; };
 		E27BB40D72D31FFB399B2475 /* Pods-MusicPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPlayer/Pods-MusicPlayer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,8 +122,8 @@
 		42C640D21C9FD7CB008D59A1 /* MusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				42C641271CA17540008D59A1 /* view */,
 				42C641171CA03FE7008D59A1 /* tools */,
-				42C640EA1CA0165A008D59A1 /* Assets */,
 				42C6411D1CA04F11008D59A1 /* model */,
 				42C640D61C9FD7CB008D59A1 /* AppDelegate.h */,
 				42C640D71C9FD7CB008D59A1 /* AppDelegate.m */,
@@ -122,6 +131,7 @@
 				42C640DA1C9FD7CB008D59A1 /* ViewController.m */,
 				42C641151CA01D44008D59A1 /* Main.storyboard */,
 				42C640DF1C9FD7CB008D59A1 /* Assets.xcassets */,
+				42C640EA1CA0165A008D59A1 /* Assets */,
 				42C640E41C9FD7CB008D59A1 /* Info.plist */,
 				42C6411B1CA04918008D59A1 /* mlist.plist */,
 				42C640D31C9FD7CB008D59A1 /* Supporting Files */,
@@ -170,6 +180,8 @@
 			children = (
 				42C641181CA0400E008D59A1 /* MusicPlayerTool.h */,
 				42C641191CA0400E008D59A1 /* MusicPlayerTool.m */,
+				42C641211CA06468008D59A1 /* MusicLyricTool.h */,
+				42C641221CA06468008D59A1 /* MusicLyricTool.m */,
 			);
 			name = tools;
 			sourceTree = "<group>";
@@ -179,8 +191,19 @@
 			children = (
 				42C6411E1CA04F25008D59A1 /* Music.h */,
 				42C6411F1CA04F25008D59A1 /* Music.m */,
+				42C641241CA064B0008D59A1 /* MusicLyric.h */,
+				42C641251CA064B0008D59A1 /* MusicLyric.m */,
 			);
 			name = model;
+			sourceTree = "<group>";
+		};
+		42C641271CA17540008D59A1 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				42C641281CA17553008D59A1 /* LyricLabel.h */,
+				42C641291CA17553008D59A1 /* LyricLabel.m */,
+			);
+			name = view;
 			sourceTree = "<group>";
 		};
 		7715053C2E20DD6CB348B80E /* Frameworks */ = {
@@ -344,9 +367,12 @@
 			files = (
 				42C6411A1CA0400E008D59A1 /* MusicPlayerTool.m in Sources */,
 				42C641201CA04F25008D59A1 /* Music.m in Sources */,
+				42C6412A1CA17553008D59A1 /* LyricLabel.m in Sources */,
 				42C640DB1C9FD7CB008D59A1 /* ViewController.m in Sources */,
 				42C640D81C9FD7CB008D59A1 /* AppDelegate.m in Sources */,
 				42C640D51C9FD7CB008D59A1 /* main.m in Sources */,
+				42C641261CA064B0008D59A1 /* MusicLyric.m in Sources */,
+				42C641231CA06468008D59A1 /* MusicLyricTool.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

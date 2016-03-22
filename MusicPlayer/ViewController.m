@@ -10,6 +10,8 @@
 #import "MusicPlayerTool.h"
 #import "Music.h"
 #import <MJExtension.h>
+#import "MusicLyricTool.h"
+#import "MusicLyric.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
@@ -31,6 +33,8 @@
 @property (assign, nonatomic) NSInteger currentMusicIndex;
 
 @property (strong, nonatomic) NSTimer *timer;
+
+@property (strong, nonatomic) NSArray<MusicLyric *> *lyrics;
 @end
 
 @implementation ViewController
@@ -52,7 +56,7 @@
     UIToolbar *toolbar = [[UIToolbar alloc] init];
     [toolbar setBarStyle:UIBarStyleBlack];
     [toolbar setTranslucent:YES];
-    [self.bgImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [toolbar setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.bgImageView addSubview:toolbar];
     //使用VisualFormatLanguage实现自动布局
     NSArray<NSLayoutConstraint *> *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[toolbar]-0-|" options:0 metrics:nil views:@{@"toolbar": toolbar}];
@@ -63,6 +67,8 @@
     
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     [self.navigationController.navigationBar setTranslatesAutoresizingMaskIntoConstraints:YES];
+    
+    [self playMusic];
 }
 - (IBAction)playMusic {
     //两个按钮同时只显示一个
@@ -70,8 +76,10 @@
     self.pauseBtn.hidden = false;
     //开始播放音乐
     Music *music = self.musics[self.currentMusicIndex];
-    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:music.mp3];
     
+    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:music.mp3];
+    //显示歌词
+    [MusicLyricTool allLyricLinesWithLyricName:music.lrc];
     //针对每首不同的歌曲，更新UI
     self.title = music.name;
     [self.bgImageView setImage:[UIImage imageNamed:music.image]];
@@ -80,19 +88,30 @@
     [self.albumNameLabel setText:music.album];
     [self.singerNameLabel setText:music.singer];
     
+    self.lyrics = [MusicLyricTool allLyricLinesWithLyricName:music.lrc];
+    
     [self.totalTimeLabel setText:[[MusicPlayerTool sharedPlayerTool] totalTime]];
-    self.timer = [NSTimer timerWithTimeInterval:1.0
-                                         target:self
-                                       selector:@selector(updateCurrentPlayingTime)
-                                       userInfo:nil
-                                        repeats:true];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                  target:self
+                                                selector:@selector(updateCurrentPlayingTime) userInfo:nil
+                                                 repeats:true];
+    
 }
 
 - (void)updateCurrentPlayingTime {
     [self.currentPlayingTimeLabel setText:[[MusicPlayerTool sharedPlayerTool] currentTimeOfMusic]];
     [self.progressView setProgress:[[MusicPlayerTool sharedPlayerTool] progress]];
+    
+    for (NSInteger i = 0; i < self.lyrics.count; ++ i) {
+        MusicLyric *currentLyric = self.lyrics[i];
+        MusicLyric *nextLyric = i == self.lyrics.count - 1 ? self.lyrics[i] : self.lyrics[i + 1];
+        NSTimeInterval current = [[MusicPlayerTool sharedPlayerTool] currentTimeOfMusicFloat];
+        if (current >= currentLyric.timePoint && current < nextLyric.timePoint) {
+            [self.lyricLabel setText:currentLyric.lyricText];
+        }
+    }
 }
-/**
+/**-
  *  暂停播放歌曲
  */
 - (IBAction)pauseMusic {
@@ -108,15 +127,14 @@
  */
 - (IBAction)previousMusic {
     self.currentMusicIndex = self.currentMusicIndex == 0 ? self.musics.count - 1 : self.currentMusicIndex - 1;
-    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:self.musics[_currentMusicIndex].mp3];
+    [self playMusic];
 }
 /**
  *  播放下一首歌曲
  */
 - (IBAction)nextMusic {
     _currentMusicIndex = _currentMusicIndex == self.musics.count - 1 ? 0 : _currentMusicIndex + 1;
-    Music *music = self.musics[_currentMusicIndex];
-    [[MusicPlayerTool sharedPlayerTool] playMusicWithMusicName:music.mp3];
+    [self playMusic];
 }
 
 @end

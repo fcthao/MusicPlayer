@@ -18,7 +18,19 @@
 - (void)playMusicWithMusicName:(NSString *)musicName;
 
 - (void)pause;
+/**
+ *  当前播放器播放的总时间（字符串）
+ *
+ *  @return <#return value description#>
+ */
 - (NSString *)totalTime;
+/**
+ *  当前播放器播放的总时间(数字)
+ *
+ *  @return <#return value description#>
+ */
+- (NSTimeInterval)totalTimeFloat;
+
 - (NSString *)currentTimeOfMusic;
 - (NSTimeInterval)currentTimeOfMusicFloat;
 

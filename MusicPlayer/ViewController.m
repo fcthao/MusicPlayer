@@ -14,6 +14,8 @@
 #import "MusicLyric.h"
 #import "LyricLabel.h"
 
+#import <MediaPlayer/MediaPlayer.h>
+
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
@@ -36,9 +38,11 @@
 @property (strong, nonatomic) NSTimer *timer;
 
 @property (strong, nonatomic) NSArray<MusicLyric *> *lyrics;
+
 @end
 
 @implementation ViewController
+
 /**
  *  使用MJExtension进行字典转模型
  *
@@ -68,6 +72,9 @@
     
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     [self.navigationController.navigationBar setTranslatesAutoresizingMaskIntoConstraints:YES];
+    
+    [[UIApplication sharedApplication] becomeFirstResponder];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     
     [self playMusic];
 }
@@ -112,6 +119,9 @@
             [self.lyricLabel setProgress:(current - currentLyric.timePoint) / (nextLyric.timePoint - currentLyric.timePoint)];
         }
     }
+    //锁屏界面 显示歌曲基本信息
+    //锁屏显示每一行歌词信息 实时更新
+    [self updateMainScreenMusicPlayerStatus];
 }
 /**-
  *  暂停播放歌曲
@@ -137,6 +147,61 @@
 - (IBAction)nextMusic {
     _currentMusicIndex = _currentMusicIndex == self.musics.count - 1 ? 0 : _currentMusicIndex + 1;
     [self playMusic];
+}
+
+- (void)updateMainScreenMusicPlayerStatus {
+    Music *nowPlayingMusic = self.musics[_currentMusicIndex];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[MPMediaItemPropertyAlbumTitle] = nowPlayingMusic.album;
+    dic[MPMediaItemPropertyArtist] = nowPlayingMusic.singer;
+    dic[MPMediaItemPropertyTitle] = nowPlayingMusic.name;
+    dic[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @([[MusicPlayerTool sharedPlayerTool] currentTimeOfMusicFloat]);
+    dic[MPMediaItemPropertyPlaybackDuration] = @([[MusicPlayerTool sharedPlayerTool] totalTimeFloat]);
+    
+    //绘制正方形
+    CGFloat length = self.view.bounds.size.width;
+    CGRect rect = CGRectMake(0, 0, length, length);
+    UIGraphicsBeginImageContext(rect.size);
+    [[UIImage imageNamed:nowPlayingMusic.mp3] drawInRect:rect];
+    [[UIColor redColor] set];
+    //播放中心
+    MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    NSDictionary *attr = @{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold"size:20.0f], NSParagraphStyleAttributeName: paragraphStyle};
+    
+    [self.lyricLabel.text drawInRect:CGRectMake(0, length - 40, length, 40) withAttributes:attr];
+    UIImage *finalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    dic[MPMediaItemPropertyArtwork] = [[MPMediaItemArtwork alloc]initWithImage:finalImage];
+    infoCenter.nowPlayingInfo = dic;
+}
+
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    switch (event.subtype) {
+        case UIEventSubtypeRemoteControlPlay:
+            [self playMusic];
+            break;
+        case UIEventSubtypeRemoteControlPause:
+            [self pauseMusic];
+            break;
+        case UIEventSubtypeRemoteControlPreviousTrack:
+            [self previousMusic];
+            break;
+        case UIEventSubtypeRemoteControlNextTrack:
+            [self nextMusic];
+            break;
+        default:
+            break;
+    }
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return true;
 }
 
 @end

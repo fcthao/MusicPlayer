@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface LyricLabel : UILabel
-
+/**
+ *  使用进度控制渲染的区域
+ */
 @property (nonatomic, assign) CGFloat progress;
 @end

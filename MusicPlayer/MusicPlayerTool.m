@@ -77,6 +77,10 @@
     NSTimeInterval duration = self.player.duration;
     return [NSString stringWithFormat:@"%02d:%02d", (int)duration / 60, (int)duration % 60];
 }
+
+- (NSTimeInterval)totalTimeFloat {
+    return self.player.duration;
+}
 /**
  *  播放器当前播放的时间点
  *
